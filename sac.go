@@ -1,7 +1,9 @@
 // sac is a simple key/value store that can work with
 // a configuration file on your filesystem
+// supports nested values (like.this.key for example)
 // no automatic conversions
-// no error handling, returns the 0 equivalent
+// no error handling by default, returns the 0 equivalent
+// safe functions equivalents in case you need error handling
 // case sensitive
 package sac
 
