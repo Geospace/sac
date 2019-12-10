@@ -4,7 +4,7 @@
 
 * Support for any filesystem
 * Define the configuration file to use
-* Supports YAML and JSON
+* Supports YAML
 * .WriteConfigSafe() => read config file if exist, write otherwise, then read
 * .WriteConfig() => write to config file
 * .ReadConfig() => read config file
@@ -16,3 +16,4 @@
 * Get/Set number
 * Get/Set boolean
 * Nested paths
+* Supports JSON
