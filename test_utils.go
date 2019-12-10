@@ -1,12 +1,19 @@
 package sac
 
 import (
+	"fmt"
+	"runtime/debug"
 	"testing"
 )
 
+func testFailedTrace(t *testing.T, str string) {
+	debug.PrintStack()
+	t.Fatalf(str)
+}
+
 func simpleAssert(t *testing.T, got interface{}, want interface{}) {
 	if want != got {
-		t.Fatalf("got: %v, want: %v", got, want)
+		testFailedTrace(t, fmt.Sprintf("got: %v, want: %v", got, want))
 	}
 }
 
@@ -14,12 +21,13 @@ func trueAssert(t *testing.T, got bool) {
 	want := true
 
 	if got != want {
-		t.Fatalf("got: %v, want: %v", got, want)
+		debug.PrintStack()
+		testFailedTrace(t, fmt.Sprintf("got: %v, want: %v", got, want))
 	}
 }
 
 func errAssert(t *testing.T, err error) {
 	if err != nil {
-		t.Fatalf(err.Error())
+		testFailedTrace(t, err.Error())
 	}
 }
