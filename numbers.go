@@ -1,8 +1,8 @@
 package sac
 
-// GetNumber reads a value from the store, if it is an integer number
-// the return type being foreced to int, the actual underlying value may
-// overflow
+// GetNumber reads a value from the store, if it is any number
+// the return type being forced to int, the actual underlying value may
+// overflow, or get truncated
 func (s *Sac) GetNumber(k string) int {
 	v := s.Get(k)
 
@@ -23,6 +23,13 @@ func (s *Sac) GetNumber(k string) int {
 		return int(v.(int32))
 	case int:
 		return v.(int)
+		// -----------------
+		// Fear the truncation
+		// -----------------
+	case float32:
+		return int(v.(float32))
+	case float64:
+		return int(v.(float64))
 		// -----------------
 		// Fear the overflow
 		// -----------------

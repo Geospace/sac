@@ -4,9 +4,9 @@ import (
 	"testing"
 )
 
-// const (
-// 	testMaterialFolder = "test_material"
-// )
+const (
+	testMaterialFolder = "test_material"
+)
 
 func TestNew(t *testing.T) {
 	sac := New()
