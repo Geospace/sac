@@ -5,6 +5,30 @@ import (
 	"testing"
 )
 
+// TODO: Could add more tests for the 0 values returns, but let's wait
+// for the safe functions equivalents
+
+func TestEmptyNumber(t *testing.T) {
+	sac := New()
+
+	k := "does_not_exist"
+	v := 0
+
+	b := sac.GetNumber(k)
+	simpleAssert(t, b, v)
+}
+
+func TestWrongNumber(t *testing.T) {
+	sac := New()
+
+	k := "wrong"
+	v := "something_not_a_number"
+
+	sac.Set(k, v)
+	b := sac.GetNumber(k)
+	simpleAssert(t, b, 0)
+}
+
 func TestSetGetNumberU8(t *testing.T) {
 	sac := New()
 	k := "key"
@@ -204,4 +228,26 @@ func TestSetGetNumber64Min(t *testing.T) {
 
 	nAny := sac.GetNumber(k)
 	simpleAssert(t, nAny, int(v))
+}
+
+func TestRoundNumber32(t *testing.T) {
+	sac := New()
+	k := "key"
+
+	v := float32(3.14)
+	sac.Set(k, v)
+
+	n := sac.GetNumber(k)
+	simpleAssert(t, n, 3)
+}
+
+func TestRoundNumber64(t *testing.T) {
+	sac := New()
+	k := "key"
+
+	v := float64(3.14)
+	sac.Set(k, v)
+
+	n := sac.GetNumber(k)
+	simpleAssert(t, n, 3)
 }

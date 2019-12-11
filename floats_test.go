@@ -5,6 +5,27 @@ import (
 	"testing"
 )
 
+func TestEmptyFloat(t *testing.T) {
+	sac := New()
+
+	k := "does_not_exist"
+	v := 0
+
+	b := sac.GetFloat(k)
+	simpleAssert(t, b, float64(v))
+}
+
+func TestWrongFloat(t *testing.T) {
+	sac := New()
+
+	k := "wrong"
+	v := "something_not_a_float"
+
+	sac.Set(k, v)
+	b := sac.GetFloat(k)
+	simpleAssert(t, b, float64(0))
+}
+
 func TestSetGetFloat32(t *testing.T) {
 	sac := New()
 	k := "key"
