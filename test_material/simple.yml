@@ -1,0 +1,5 @@
+key_string: string value
+key_string_other: other string value
+key_number: 3
+key_float: 3.14
+key_bool: true

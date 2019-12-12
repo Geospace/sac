@@ -1,0 +1,10 @@
+nested:
+  key_string: string value
+  key_bool: true
+very:
+  nested:
+    key_string_other: other string value
+  very:
+    nested:
+      key_number: 3
+key_float: 3.14

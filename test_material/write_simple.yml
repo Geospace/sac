@@ -1,0 +1,4 @@
+key_bool: true
+key_number: 3.14
+key_string: string value changed
+key_string_new: new string value

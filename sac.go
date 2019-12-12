@@ -79,7 +79,7 @@ func (s *Sac) Delete(k string) {
 func (s *Sac) ReadConfig(path string) error {
 	switch s.ConfigType {
 	case YAML:
-		return fmt.Errorf("not implemented")
+		return s.readConfigYAML(path)
 	case JSON:
 		return s.readConfigJSON(path)
 	default:
@@ -92,7 +92,7 @@ func (s *Sac) ReadConfig(path string) error {
 func (s *Sac) WriteConfig() error {
 	switch s.ConfigType {
 	case YAML:
-		return fmt.Errorf("not implemented")
+		return s.writeConfigYAML(s.Path)
 	case JSON:
 		return s.writeConfigJSON(s.Path)
 	default:
