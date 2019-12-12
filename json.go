@@ -28,9 +28,6 @@ func (s *Sac) readConfigJSON(path string) error {
 		return err
 	}
 
-	s.ConfigType = JSON
-	s.Path = path
-
 	return nil
 }
 

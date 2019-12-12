@@ -9,16 +9,20 @@ package sac
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/spf13/afero"
 )
 
+// Sac represents a configuration file in memory
 type Sac struct {
-	fields     map[string]interface{}
+	fields map[string]interface{}
+	// ConfigType is the configuration format (JSON, YAML), see sac.ConfigType
 	ConfigType ConfigType
-	Path       string
-	fs         afero.Fs
+	// Path is the path the configuration will be written to
+	Path string
+	fs   afero.Fs
 }
 
 const (
@@ -37,6 +41,8 @@ func New() *Sac {
 	}
 }
 
+// ChangeFS changes the underlying filesystem that will be used for
+// config read/write operations
 func (s *Sac) ChangeFS(fs afero.Fs) {
 	s.fs = fs
 }
@@ -69,10 +75,9 @@ func (s *Sac) Delete(k string) {
 	delete(s.fields, k)
 }
 
-// ReadConfig reads the configuration file at path into the sac object,
-// according to the format parameter
-func (s *Sac) ReadConfig(path string, configType ConfigType) error {
-	switch configType {
+// ReadConfig reads the configuration file at path into the sac object
+func (s *Sac) ReadConfig(path string) error {
+	switch s.ConfigType {
 	case YAML:
 		return fmt.Errorf("not implemented")
 	case JSON:
@@ -82,7 +87,8 @@ func (s *Sac) ReadConfig(path string, configType ConfigType) error {
 	}
 }
 
-// WriteConfig write the configuration file at the path it has been read
+// WriteConfig writes the configuration file at the path it has been read
+// and it does not care if the file exist or not
 func (s *Sac) WriteConfig() error {
 	switch s.ConfigType {
 	case YAML:
@@ -92,4 +98,14 @@ func (s *Sac) WriteConfig() error {
 	default:
 		return fmt.Errorf("bad config type")
 	}
+}
+
+// WriteConfigSafe writes the configuration file, only if the file does not
+// exist
+func (s *Sac) WriteConfigSafe() error {
+	if _, err := s.fs.Stat(s.Path); !os.IsNotExist(err) {
+		return nil
+	}
+
+	return s.WriteConfig()
 }
