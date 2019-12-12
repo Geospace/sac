@@ -43,3 +43,11 @@ func TestWriteFSSimpleYAML(t *testing.T) {
 func TestWriteFSSafeYAML(t *testing.T) {
 	testWriteFSSafe(t, YAML, extYAML)
 }
+
+func TestSliceReadYAML(t *testing.T) {
+	testSliceRead(t, YAML, extYAML)
+}
+
+func TestNumberSliceReadYAML(t *testing.T) {
+	testNumberSliceRead(t, YAML, extYAML)
+}

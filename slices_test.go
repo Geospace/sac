@@ -12,7 +12,6 @@ func TestEmptySlice(t *testing.T) {
 	b := sac.GetStringSlice(k)
 	trueAssert(t, b != nil)
 	trueAssert(t, len(b) == 0)
-	trueAssert(t, cap(b) == 0)
 }
 
 func TestSlice3(t *testing.T) {
@@ -30,7 +29,6 @@ func TestSlice3(t *testing.T) {
 
 	trueAssert(t, b != nil)
 	trueAssert(t, len(b) == 3)
-	trueAssert(t, cap(b) == 3)
 
 	simpleAssert(t, v[0], "0")
 	simpleAssert(t, v[1], "1")
@@ -52,5 +50,4 @@ func TestSliceWrong(t *testing.T) {
 
 	trueAssert(t, b != nil)
 	trueAssert(t, len(b) == 0)
-	trueAssert(t, cap(b) == 0)
 }

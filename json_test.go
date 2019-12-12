@@ -43,3 +43,11 @@ func TestWriteFSSimpleJSON(t *testing.T) {
 func TestWriteFSSafeJSON(t *testing.T) {
 	testWriteFSSafe(t, JSON, extJSON)
 }
+
+func TestSliceReadJSON(t *testing.T) {
+	testSliceRead(t, JSON, extJSON)
+}
+
+func TestNumberSliceReadJSON(t *testing.T) {
+	testNumberSliceRead(t, JSON, extJSON)
+}

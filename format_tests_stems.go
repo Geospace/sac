@@ -199,3 +199,37 @@ func testWriteFSSafe(t *testing.T, configType ConfigType, ext string) {
 
 	simpleAssert(t, string(prev), string(next))
 }
+
+func testSliceRead(t *testing.T, configType ConfigType, ext string) {
+	sac := New()
+	sac.ConfigType = configType
+
+	fpath := path.Join(testMaterialFolder, "slice"+ext)
+	sac.Path = fpath
+
+	err := sac.ReadConfig(fpath)
+	errAssert(t, err)
+
+	slice := sac.GetStringSlice("slice")
+	trueAssert(t, slice != nil)
+
+	simpleAssert(t, slice[0], "this")
+	simpleAssert(t, slice[1], "is")
+	simpleAssert(t, slice[2], "a")
+	simpleAssert(t, slice[3], "slice")
+}
+
+func testNumberSliceRead(t *testing.T, configType ConfigType, ext string) {
+	sac := New()
+	sac.ConfigType = configType
+
+	fpath := path.Join(testMaterialFolder, "number_slice"+ext)
+	sac.Path = fpath
+
+	err := sac.ReadConfig(fpath)
+	errAssert(t, err)
+
+	slice := sac.GetStringSlice("slice")
+	trueAssert(t, slice != nil)
+	trueAssert(t, len(slice) == 0)
+}
