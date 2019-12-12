@@ -10,37 +10,37 @@ func (s *Sac) GetNumber(k string) int {
 		return 0
 	}
 
-	switch v.(type) {
+	switch v := v.(type) {
 	case uint8:
-		return int(v.(uint8))
+		return int(v)
 	case int8:
-		return int(v.(int8))
+		return int(v)
 	case uint16:
-		return int(v.(uint16))
+		return int(v)
 	case int16:
-		return int(v.(int16))
+		return int(v)
 	case int32:
-		return int(v.(int32))
+		return int(v)
 	case int:
-		return v.(int)
+		return v
 		// -----------------
 		// Fear the truncation
 		// -----------------
 	case float32:
-		return int(v.(float32))
+		return int(v)
 	case float64:
-		return int(v.(float64))
+		return int(v)
 		// -----------------
 		// Fear the overflow
 		// -----------------
 	case uint:
-		return int(v.(uint))
+		return int(v)
 	case uint32:
-		return int(v.(uint32))
+		return int(v)
 	case uint64:
-		return int(v.(uint64))
+		return int(v)
 	case int64:
-		return int(v.(int64))
+		return int(v)
 	}
 
 	return 0

@@ -8,12 +8,12 @@ func (s *Sac) GetFloat(k string) float64 {
 		return 0
 	}
 
-	switch v.(type) {
+	switch v := v.(type) {
 	case float64:
-		return v.(float64)
+		return v
 	case float32:
 		// Both types are compatible
-		return float64(v.(float32))
+		return float64(v)
 	}
 
 	return 0
