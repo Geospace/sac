@@ -6,10 +6,14 @@ import (
 	"os"
 )
 
+const (
+	JSONIndent = "  "
+)
+
 func (s *Sac) readConfigJSON(path string) error {
 	// TODO: Wrap errors betters
 
-	file, err := os.Open(path)
+	file, err := s.fs.Open(path)
 	if err != nil {
 		return err
 	}
@@ -19,5 +23,28 @@ func (s *Sac) readConfigJSON(path string) error {
 		return err
 	}
 
-	return json.Unmarshal(jsonContent, &s.fields)
+	err = json.Unmarshal(jsonContent, &s.fields)
+	if err != nil {
+		return err
+	}
+
+	s.ConfigType = JSON
+	s.Path = path
+
+	return nil
+}
+
+func (s *Sac) writeConfigJSON(path string) error {
+	content, err := json.MarshalIndent(s.fields, "", JSONIndent)
+	if err != nil {
+		return err
+	}
+
+	file, err := s.fs.OpenFile(path, os.O_CREATE|os.O_WRONLY, writePermission)
+	if err != nil {
+		return err
+	}
+
+	_, err = file.Write(content)
+	return err
 }

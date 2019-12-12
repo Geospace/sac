@@ -20,6 +20,7 @@ require (
 	github.com/json-iterator/go v1.1.8 // indirect
 	github.com/prometheus/client_golang v1.2.1 // indirect
 	github.com/soheilhy/cmux v0.1.4 // indirect
+	github.com/spf13/afero v1.2.2
 	github.com/spf13/cobra v0.0.5 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/tmc/grpc-websocket-proxy v0.0.0-20190109142713-0ad062ec5ee5 // indirect

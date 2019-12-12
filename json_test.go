@@ -1,9 +1,22 @@
 package sac
 
 import (
+	"io/ioutil"
 	"path"
 	"testing"
+
+	"github.com/spf13/afero"
 )
+
+func TestJSONSetup(t *testing.T) {
+	sac := New()
+
+	fpath := path.Join(testMaterialFolder, "simple.json")
+	err := sac.ReadConfig(fpath, JSON)
+	errAssert(t, err)
+
+	simpleAssert(t, sac.ConfigType, JSON)
+}
 
 func TestErrorJSON(t *testing.T) {
 	sac := New()
@@ -20,8 +33,8 @@ func TestErrorJSON(t *testing.T) {
 func TestReadJSON(t *testing.T) {
 	sac := New()
 
-	path := path.Join(testMaterialFolder, "simple.json")
-	err := sac.ReadConfig(path, JSON)
+	fpath := path.Join(testMaterialFolder, "simple.json")
+	err := sac.ReadConfig(fpath, JSON)
 	errAssert(t, err)
 
 	str := sac.GetString("key_string")
@@ -43,8 +56,8 @@ func TestReadJSON(t *testing.T) {
 func TestReadJSONNested(t *testing.T) {
 	sac := New()
 
-	path := path.Join(testMaterialFolder, "nested.json")
-	err := sac.ReadConfig(path, JSON)
+	fpath := path.Join(testMaterialFolder, "nested.json")
+	err := sac.ReadConfig(fpath, JSON)
 	errAssert(t, err)
 
 	str := sac.GetString("nested.key_string")
@@ -66,8 +79,8 @@ func TestReadJSONNested(t *testing.T) {
 func TestReadJSONEmpty(t *testing.T) {
 	sac := New()
 
-	path := path.Join(testMaterialFolder, "empty.json")
-	err := sac.ReadConfig(path, JSON)
+	fpath := path.Join(testMaterialFolder, "empty.json")
+	err := sac.ReadConfig(fpath, JSON)
 	errAssert(t, err)
 
 	empty := sac.GetString("empty")
@@ -77,8 +90,8 @@ func TestReadJSONEmpty(t *testing.T) {
 func TestReadJSONNotExist(t *testing.T) {
 	sac := New()
 
-	path := path.Join(testMaterialFolder, "empty.json")
-	err := sac.ReadConfig(path, JSON)
+	fpath := path.Join(testMaterialFolder, "empty.json")
+	err := sac.ReadConfig(fpath, JSON)
 	errAssert(t, err)
 
 	empty := sac.GetString("DOES_NOT_EXIST")
@@ -88,8 +101,8 @@ func TestReadJSONNotExist(t *testing.T) {
 func TestReadJSONCaseSensitive(t *testing.T) {
 	sac := New()
 
-	path := path.Join(testMaterialFolder, "case.json")
-	err := sac.ReadConfig(path, JSON)
+	fpath := path.Join(testMaterialFolder, "case.json")
+	err := sac.ReadConfig(fpath, JSON)
 	errAssert(t, err)
 
 	low := sac.GetString("key")
@@ -102,8 +115,8 @@ func TestReadJSONCaseSensitive(t *testing.T) {
 func TestWriteJSONMemory(t *testing.T) {
 	sac := New()
 
-	path := path.Join(testMaterialFolder, "nested.json")
-	err := sac.ReadConfig(path, JSON)
+	fpath := path.Join(testMaterialFolder, "nested.json")
+	err := sac.ReadConfig(fpath, JSON)
 	errAssert(t, err)
 
 	k := "very.nested.key_string_other"
@@ -115,4 +128,33 @@ func TestWriteJSONMemory(t *testing.T) {
 
 	after := sac.GetString(k)
 	simpleAssert(t, after, "changed")
+}
+
+func TestWriteJSONFSSimple(t *testing.T) {
+	sac := New()
+
+	fpath := path.Join(testMaterialFolder, "simple.json")
+	err := sac.ReadConfig(fpath, JSON)
+	errAssert(t, err)
+
+	sac.Set("key_string", "string value changed")
+	sac.Set("key_string_new", "new string value")
+	sac.Set("key_number", 3.14)
+	sac.Delete("key_string_other")
+	sac.Delete("key_float")
+
+	fs := afero.NewMemMapFs()
+	sac.ChangeFS(fs)
+	err = sac.WriteConfig()
+	errAssert(t, err)
+
+	sacOutFile, err := fs.Open(fpath)
+	errAssert(t, err)
+	sacOut, err := ioutil.ReadAll(sacOutFile)
+	errAssert(t, err)
+
+	goodOut, err := ioutil.ReadFile(path.Join(testMaterialFolder, "write_simple.json"))
+	errAssert(t, err)
+
+	simpleAssert(t, string(sacOut), string(goodOut))
 }
