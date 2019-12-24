@@ -1,4 +1,4 @@
-module sac
+module github.com/geospace/sac
 
 go 1.13
 
