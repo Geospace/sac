@@ -37,7 +37,7 @@ func (s *Sac) writeConfigJSON(path string) error {
 		return err
 	}
 
-	file, err := s.fs.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, writePermission)
+	file, err := s.fs.OpenFile(path, os.O_CREATE|os.O_WRONLY, writePermission)
 	if err != nil {
 		return err
 	}

@@ -3,6 +3,7 @@ package sac
 import (
 	"io/ioutil"
 	"os"
+        "fmt"
 
 	"gopkg.in/yaml.v3"
 )
@@ -34,7 +35,9 @@ func (s *Sac) writeConfigYAML(path string) error {
 		return err
 	}
 
-	file, err := s.fs.OpenFile(path, os.O_CREATE|os.O_WRONLY|os.O_TRUNC, writePermission)
+        fmt.Println(string(content))
+
+	file, err := s.fs.OpenFile(path, os.O_CREATE|os.O_WRONLY, writePermission)
 	if err != nil {
 		return err
 	}
